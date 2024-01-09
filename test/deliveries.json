@@ -1,0 +1,815 @@
+{
+  "_id": {
+    "$oid": "659cccfb895082710b9362ff"
+  },
+  "timestamps": {
+    "createdAt": {
+      "$date": "2024-01-09T04:35:07.094Z"
+    },
+    "updatedAt": {
+      "$date": "2024-01-09T04:35:07.216Z"
+    }
+  },
+  "request": {
+    "vehicles": [
+      {
+        "transportType": "default",
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "parkingTime": 300,
+        "zones": [],
+        "appsCompatibility": [],
+        "proximityFactor": 0,
+        "id": "STWv4PrvgseZEoHeG",
+        "cargo": {
+          "weight": 0,
+          "volume": 0,
+          "custom": 0
+        },
+        "startLocation": {
+          "lat": 38.581065050608345,
+          "lng": 68.7934208236188
+        },
+        "endLocation": null,
+        "costs": {
+          "costPerDistance": 1,
+          "costPerTime": 100,
+          "costPerServiceTime": 0,
+          "costPerWaitingTime": 1,
+          "fixed": 0
+        },
+        "workingTime": {
+          "start": 1704774897,
+          "end": 2147483647
+        },
+        "maxServices": 500,
+        "maxTripDuration": null
+      }
+    ],
+    "locations": [],
+    "deliveries": [
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "fffYRf4HuLZ3PBzCD",
+        "priority": 1,
+        "clientId": "8gKNokXo5K23KPDH7",
+        "timeWindow": {
+          "start": 1704776439,
+          "end": 1704801640
+        },
+        "location": {
+          "lng": 68.8148888480662,
+          "lat": 38.56301820993234
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "yWnYXeGE3kCajFc3K",
+        "priority": 1,
+        "clientId": "RCgk4MNou5Ts3P7iH",
+        "timeWindow": {
+          "start": 1704787256,
+          "end": 1704801657
+        },
+        "location": {
+          "lng": 68.78446519418505,
+          "lat": 38.60191495609481
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "L6wEaEaBnyWcGmbZD",
+        "priority": 1,
+        "clientId": "cAqWkSc3QehK5HpXo",
+        "timeWindow": {
+          "start": 1704776452,
+          "end": 1704801653
+        },
+        "location": {
+          "lng": 68.78480046965706,
+          "lat": 38.568509841034135
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "qYbM3j85C7d2YkbbD",
+        "priority": 1,
+        "clientId": "b6aTqZBJYLE6krvDi",
+        "timeWindow": {
+          "start": 1704776435,
+          "end": 1704801636
+        },
+        "location": {
+          "lng": 68.7965077170884,
+          "lat": 38.56381527681812
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "hQKyPogeLdkQSPBAJ",
+        "priority": 1,
+        "clientId": "9PsGrr267B58nWMCj",
+        "timeWindow": {
+          "start": 1704776400,
+          "end": 1704801600
+        },
+        "location": {
+          "lng": 68.7965077170884,
+          "lat": 38.56381527681812
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "N6b4Hh3QF7qQFG4Bw",
+        "priority": 1,
+        "clientId": "kkJDBCEPsbmqZdHhe",
+        "timeWindow": {
+          "start": 1704776445,
+          "end": 1704801646
+        },
+        "location": {
+          "lng": 68.78626763864305,
+          "lat": 38.59374656353235
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "HhobT7TtTQHvR7CQe",
+        "priority": 1,
+        "clientId": "ojhLbK5QpuLEPuv6e",
+        "timeWindow": {
+          "start": 1704776442,
+          "end": 1704801643
+        },
+        "location": {
+          "lng": 68.79999160766603,
+          "lat": 38.56180858953744
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "i3morCpjS8kD4cRzn",
+        "priority": 1,
+        "clientId": "5B5Dab39sCCARyHZ8",
+        "timeWindow": {
+          "start": 1704776427,
+          "end": 1704801628
+        },
+        "location": {
+          "lng": 68.7965077170884,
+          "lat": 38.56381527681812
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "2PiQxDdf9HA7u9Gvx",
+        "priority": 1,
+        "clientId": "JwGxXxBWHP5LwPzEh",
+        "timeWindow": {
+          "start": 1704776428,
+          "end": 1704801629
+        },
+        "location": {
+          "lng": 68.78307402123029,
+          "lat": 38.568448072072165
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "A7iRPjMdXJRhLyx6B",
+        "priority": 1,
+        "clientId": "fpphb98ny5SgkeTZM",
+        "timeWindow": {
+          "start": 1704776417,
+          "end": 1704801618
+        },
+        "location": {
+          "lng": 68.79447698593141,
+          "lat": 38.56844569210044
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "9e9X2tzEqPDtgECwS",
+        "priority": 1,
+        "clientId": "daywNyCEYFTCN4WFf",
+        "timeWindow": {
+          "start": 1704776431,
+          "end": 1704801632
+        },
+        "location": {
+          "lng": 68.78374457381143,
+          "lat": 38.61535296416876
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "5NzMAKf8sdp9THbtT",
+        "priority": 1,
+        "clientId": "aZYRx7Hrw4F6Z2X8P",
+        "timeWindow": {
+          "start": 1704776431,
+          "end": 1704801632
+        },
+        "location": {
+          "lng": 68.81559825386532,
+          "lat": 38.54620441921079
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "HdmcvvvqLMfB5DtZe",
+        "priority": 1,
+        "clientId": "6fr8EcotgcqYDF2yk",
+        "timeWindow": {
+          "start": 1704776446,
+          "end": 1704801647
+        },
+        "location": {
+          "lng": 68.79302322864534,
+          "lat": 38.57565376968899
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "ggRQg5Y7Do7oWLRcZ",
+        "priority": 1,
+        "clientId": "WoouHpJdPkFkBvGQA",
+        "timeWindow": {
+          "start": 1704776411,
+          "end": 1704801612
+        },
+        "location": {
+          "lng": 68.79943408096693,
+          "lat": 38.54834850372506
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "Mhj6cczuCW5BisThG",
+        "priority": 1,
+        "clientId": "uzQtkxLuW7LbhukX6",
+        "timeWindow": {
+          "start": 1704776423,
+          "end": 1704801624
+        },
+        "location": {
+          "lng": 68.8017663361825,
+          "lat": 38.573592965872336
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "NeTK7meKXYPKWkafS",
+        "priority": 1,
+        "clientId": "Qqm2tffMybCbyAAL8",
+        "timeWindow": {
+          "start": 1704776453,
+          "end": 1704801654
+        },
+        "location": {
+          "lng": 68.81262898539718,
+          "lat": 38.559081233253394
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "PjLojxwJ4WE56YELc",
+        "priority": 1,
+        "clientId": "PBhwWecfnXH42HnN3",
+        "timeWindow": {
+          "start": 1704776448,
+          "end": 1704787249
+        },
+        "location": {
+          "lng": 68.79040002822877,
+          "lat": 38.58990452363262
+        }
+      },
+      {
+        "skills": [
+          "STWv4PrvgseZEoHeG"
+        ],
+        "zones": [],
+        "cargos": [
+          {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        ],
+        "serviceTime": 600,
+        "id": "H68u5BewLiNduXQhW",
+        "priority": 1,
+        "clientId": "eeDYoJPFLYtfGvjEb",
+        "timeWindow": {
+          "start": 1704776405,
+          "end": 1704801606
+        },
+        "location": {
+          "lng": 68.83312616852267,
+          "lat": 38.55805535881647
+        }
+      }
+    ],
+    "pickups": [],
+    "shipments": [],
+    "params": {
+      "algorithmName": "Relog",
+      "combinePointsTurnedOn": false,
+      "combineServiceTimeTurnedOn": false,
+      "considerCategory": false,
+      "considerClient": false,
+      "companyId": "8nwRp8FiDnWXbzbke",
+      "considerJams": false,
+      "iterations": 50,
+      "speedRate": 1,
+      "timeZoneName": "Asia/Dushanbe",
+      "algorithmType": "MINIMIZE_COST"
+    }
+  },
+  "status": {
+    "createdAt": {
+      "$date": "2024-01-09T04:35:07.215Z"
+    },
+    "type": "FINISHED"
+  },
+  "statusHistory": [
+    {
+      "createdAt": {
+        "$date": "2024-01-09T04:35:07.093Z"
+      },
+      "type": "WAITING"
+    },
+    {
+      "createdAt": {
+        "$date": "2024-01-09T04:35:07.215Z"
+      },
+      "type": "FINISHED"
+    }
+  ],
+  "requestInfo": {
+    "companyId": "8nwRp8FiDnWXbzbke",
+    "userId": "E8SPrvDx3JT6Skdbg"
+  },
+  "response": {
+    "routes": [
+      {
+        "vehicleId": "STWv4PrvgseZEoHeG",
+        "statistics": {
+          "distance": 29361.100000000002,
+          "travelTime": 3647.200000524521,
+          "waitingTime": 10546.599999904633,
+          "serviceTime": 10800,
+          "startTime": 1704776192.6,
+          "endTime": 1704799890.8000004,
+          "cost": 404627.70005235675,
+          "maxLoad": {
+            "weight": 0,
+            "volume": 0,
+            "custom": 0
+          }
+        },
+        "steps": [
+          {
+            "type": "start",
+            "arrivalTime": 0,
+            "startTime": 1704774897,
+            "endTime": 1704776192.6,
+            "distance": 0,
+            "tripDuration": 0,
+            "travelTime": 0,
+            "waitingTime": 0,
+            "cost": 0
+          },
+          {
+            "type": "delivery",
+            "id": "PjLojxwJ4WE56YELc",
+            "arrivalTime": 1704776448,
+            "startTime": 1704776448,
+            "endTime": 1704777048,
+            "distance": 2030.3,
+            "tripDuration": 255.40000009536743,
+            "travelTime": 255.40000009536743,
+            "waitingTime": 0,
+            "cost": 28865.900009441375
+          },
+          {
+            "type": "delivery",
+            "id": "N6b4Hh3QF7qQFG4Bw",
+            "arrivalTime": 1704777173.8,
+            "startTime": 1704777173.8,
+            "endTime": 1704777773.8,
+            "distance": 2760.4,
+            "tripDuration": 981.2000000476837,
+            "travelTime": 381.2000000476837,
+            "waitingTime": 0,
+            "cost": 42176.000004673006
+          },
+          {
+            "type": "delivery",
+            "id": "yWnYXeGE3kCajFc3K",
+            "arrivalTime": 1704778005,
+            "startTime": 1704787256,
+            "endTime": 1704787856,
+            "distance": 4242.4,
+            "tripDuration": 1812.4000000953674,
+            "travelTime": 612.4000000953674,
+            "waitingTime": 9251,
+            "cost": 76029.00000944137
+          },
+          {
+            "type": "delivery",
+            "id": "9e9X2tzEqPDtgECwS",
+            "arrivalTime": 1704788107.4,
+            "startTime": 1704788107.4,
+            "endTime": 1704788707.4,
+            "distance": 5972.9,
+            "tripDuration": 11914.800000190735,
+            "travelTime": 863.8000001907349,
+            "waitingTime": 0,
+            "cost": 102899.50001897811
+          },
+          {
+            "type": "delivery",
+            "id": "HdmcvvvqLMfB5DtZe",
+            "arrivalTime": 1704789130.1000001,
+            "startTime": 1704789130.1000001,
+            "endTime": 1704789730.1000001,
+            "distance": 10945.4,
+            "tripDuration": 12937.500000238419,
+            "travelTime": 1286.5000002384186,
+            "waitingTime": 0,
+            "cost": 150142.00002374648
+          },
+          {
+            "type": "delivery",
+            "id": "Mhj6cczuCW5BisThG",
+            "arrivalTime": 1704789904.1000001,
+            "startTime": 1704789904.1000001,
+            "endTime": 1704790504.1000001,
+            "distance": 12181.699999999999,
+            "tripDuration": 13711.500000238419,
+            "travelTime": 1460.5000002384186,
+            "waitingTime": 0,
+            "cost": 168778.30002374647
+          },
+          {
+            "type": "delivery",
+            "id": "A7iRPjMdXJRhLyx6B",
+            "arrivalTime": 1704790625.3000002,
+            "startTime": 1704790625.3000002,
+            "endTime": 1704791225.3000002,
+            "distance": 13321.3,
+            "tripDuration": 14432.700000286102,
+            "travelTime": 1581.7000002861023,
+            "waitingTime": 0,
+            "cost": 182037.90002851485
+          },
+          {
+            "type": "delivery",
+            "id": "2PiQxDdf9HA7u9Gvx",
+            "arrivalTime": 1704791455.5000002,
+            "startTime": 1704791455.5000002,
+            "endTime": 1704792055.5000002,
+            "distance": 15076.9,
+            "tripDuration": 15262.900000333786,
+            "travelTime": 1811.900000333786,
+            "waitingTime": 0,
+            "cost": 206813.50003328323
+          },
+          {
+            "type": "delivery",
+            "id": "L6wEaEaBnyWcGmbZD",
+            "arrivalTime": 1704792134.7000003,
+            "startTime": 1704792134.7000003,
+            "endTime": 1704792734.7000003,
+            "distance": 15429,
+            "tripDuration": 15942.10000038147,
+            "travelTime": 1891.1000003814697,
+            "waitingTime": 0,
+            "cost": 215085.6000380516
+          },
+          {
+            "type": "delivery",
+            "id": "i3morCpjS8kD4cRzn",
+            "arrivalTime": 1704792933.9000003,
+            "startTime": 1704792933.9000003,
+            "endTime": 1704793533.9000003,
+            "distance": 16987.5,
+            "tripDuration": 16741.300000429153,
+            "travelTime": 2090.3000004291534,
+            "waitingTime": 0,
+            "cost": 236564.10004281998
+          },
+          {
+            "type": "delivery",
+            "id": "hQKyPogeLdkQSPBAJ",
+            "arrivalTime": 1704793533.9000003,
+            "startTime": 1704793533.9000003,
+            "endTime": 1704794133.9000003,
+            "distance": 16987.5,
+            "tripDuration": 17341.300000429153,
+            "travelTime": 2090.3000004291534,
+            "waitingTime": 0,
+            "cost": 236564.10004281998
+          },
+          {
+            "type": "delivery",
+            "id": "qYbM3j85C7d2YkbbD",
+            "arrivalTime": 1704794133.9000003,
+            "startTime": 1704794133.9000003,
+            "endTime": 1704794733.9000003,
+            "distance": 16987.5,
+            "tripDuration": 17941.300000429153,
+            "travelTime": 2090.3000004291534,
+            "waitingTime": 0,
+            "cost": 236564.10004281998
+          },
+          {
+            "type": "delivery",
+            "id": "HhobT7TtTQHvR7CQe",
+            "arrivalTime": 1704794883.4000003,
+            "startTime": 1704794883.4000003,
+            "endTime": 1704795483.4000003,
+            "distance": 18356.9,
+            "tripDuration": 18690.800000429153,
+            "travelTime": 2239.8000004291534,
+            "waitingTime": 0,
+            "cost": 252883.50004281997
+          },
+          {
+            "type": "delivery",
+            "id": "H68u5BewLiNduXQhW",
+            "arrivalTime": 1704795893.3000004,
+            "startTime": 1704795893.3000004,
+            "endTime": 1704796493.3000004,
+            "distance": 23088.9,
+            "tripDuration": 19700.70000052452,
+            "travelTime": 2649.700000524521,
+            "waitingTime": 0,
+            "cost": 298605.50005235674
+          },
+          {
+            "type": "delivery",
+            "id": "fffYRf4HuLZ3PBzCD",
+            "arrivalTime": 1704796744.5000005,
+            "startTime": 1704796744.5000005,
+            "endTime": 1704797344.5000005,
+            "distance": 25015.800000000003,
+            "tripDuration": 20551.900000572205,
+            "travelTime": 2900.9000005722046,
+            "waitingTime": 0,
+            "cost": 325652.40005712514
+          },
+          {
+            "type": "delivery",
+            "id": "NeTK7meKXYPKWkafS",
+            "arrivalTime": 1704797517.2000005,
+            "startTime": 1704797517.2000005,
+            "endTime": 1704798117.2000005,
+            "distance": 25703.600000000002,
+            "tripDuration": 21324.60000061989,
+            "travelTime": 3073.6000006198883,
+            "waitingTime": 0,
+            "cost": 343610.2000618935
+          },
+          {
+            "type": "delivery",
+            "id": "5NzMAKf8sdp9THbtT",
+            "arrivalTime": 1704798446.0000005,
+            "startTime": 1704798446.0000005,
+            "endTime": 1704799046.0000005,
+            "distance": 27427.7,
+            "tripDuration": 22253.400000572205,
+            "travelTime": 3402.4000005722046,
+            "waitingTime": 0,
+            "cost": 378214.3000571251
+          },
+          {
+            "type": "delivery",
+            "id": "ggRQg5Y7Do7oWLRcZ",
+            "arrivalTime": 1704799290.8000004,
+            "startTime": 1704799290.8000004,
+            "endTime": 1704799890.8000004,
+            "distance": 29361.100000000002,
+            "tripDuration": 23098.20000052452,
+            "travelTime": 3647.200000524521,
+            "waitingTime": 0,
+            "cost": 404627.70005235675
+          },
+          {
+            "type": "end",
+            "arrivalTime": 1704799890.8000004,
+            "startTime": 1704799890.8000004,
+            "endTime": 1704799890.8000004,
+            "distance": 29361.100000000002,
+            "tripDuration": 23698.20000052452,
+            "travelTime": 3647.200000524521,
+            "waitingTime": 0,
+            "cost": 404627.70005235675
+          }
+        ]
+      }
+    ],
+    "unassigned": [],
+    "statistics": {
+      "distance": 29361.100000000002,
+      "travelTime": 3647.200000524521,
+      "waitingTime": 10546.599999904633,
+      "serviceTime": 10800,
+      "startTime": 1704776192.6,
+      "endTime": 1704799890.8000004,
+      "cost": 404627.70005235675
+    },
+    "status": "SUCCESS"
+  }
+}
