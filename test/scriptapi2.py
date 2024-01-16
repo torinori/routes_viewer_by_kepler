@@ -16,6 +16,7 @@ collection_name = "tests"
 
 
 
+
 def connect_to_mongodb(database_name, collection_name):
     client = MongoClient("mongodb://localhost:27017/")
     db = client[database_name]
@@ -27,6 +28,7 @@ def cleanup_files(orders_path, routes_path, zip_file_path):
     os.remove(orders_path)
     os.remove(zip_file_path)
     os.remove(routes_path)
+mongodb_collection = connect_to_mongodb(db_name, collection_name)
 
 
 @app.get("/map/{file_id}")
@@ -188,7 +190,6 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
 
 
     document_id_to_process = file_id
-    mongodb_collection = connect_to_mongodb(db_name, collection_name)
     json_data = load_json_from_mongodb(mongodb_collection, document_id_to_process)
     convert_json_to_csv(json_data)
     orders_path = "orders"+randomi+".csv" 
