@@ -116,9 +116,9 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
         for vehicle in json_file["request"]["vehicles"]:
             start_location = vehicle["startLocation"]
             end_location = vehicle["endLocation"]
-            if start_location['lat'] and start_location['lng']:
+            if start_location:
                 orders_map[f"{vehicle['id']}:start"] = [start_location['lat'], start_location['lng']]
-            if end_location['lat'] and start_location['lgn']:
+            if end_location:
                 orders_map[f"{vehicle['id']}:end"] = [end_location['lat'], end_location['lng']]
             
             # TODO: add endLocation
@@ -143,6 +143,8 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                 cur_loc = None
                 
                 if step['type']=="start" or step['type']=="end":
+                    if f"{route['vehicleId']}:{step['type']}" not in orders_map:
+                        continue
                     cur_loc = orders_map[f"{route['vehicleId']}:{step['type']}"]
                 else:
                     cur_loc = orders_map[f"{step['id']}:{step['type']}"]
