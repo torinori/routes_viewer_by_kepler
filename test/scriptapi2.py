@@ -117,8 +117,8 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             start_location = vehicle["startLocation"]
             end_location = vehicle["endLocation"]
 
-            orders_map[f"{vehicle['_id']}:start"] = [start_location['lat'], start_location['lng']]
-            orders_map[f"{vehicle['_id']}:start"] = [end_location['lat'], end_location['lng']]
+            orders_map[f"{vehicle['id']}:start"] = [start_location['lat'], start_location['lng']]
+            orders_map[f"{vehicle['id']}:end"] = [end_location['lat'], end_location['lng']]
             
             # TODO: add endLocation
         
