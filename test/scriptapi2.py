@@ -76,10 +76,12 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
 
         for shipment in json_file["request"]["shipments"]:
             # TODO: too complicated
+            location_pickup = shipment["pickup"]["location"]
+            location_delivery = shipment["delivery"]["location"]
             
             order_pickup_ship = {
-                "lat": shipment["pickup"]["location"]["lat"],
-                "lng": shipment["pickup"]["location"]["lng"],
+                "lat": location_pickup["lat"],
+                "lng": location_pickup["lng"],
                 "order_id": shipment["id"],
                 "type": "pickupShipment",
             }
@@ -89,8 +91,8 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             ] = order_pickup_ship
 
             order_delivery_ship = {
-                "lat": shipment["delivery"]["location"]["lat"],
-                "lng": shipment["delivery"]["location"]["lng"],
+                "lat": location_delivery["lat"],
+                "lng": location_delivery["lng"],
                 "order_id": shipment["id"],
                 "type": "deliverShipment",
             }
