@@ -88,7 +88,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             orders.append(order_pickup_ship)
             orders_map[
                 f"{order_pickup_ship['order_id']}:{order_pickup_ship['type']}"
-            ] = order_pickup_ship
+            ] = [order_pickup_ship['lat'], order_pickup_ship['lng']]
 
             order_delivery_ship = {
                 "lat": location_delivery["lat"],
@@ -99,7 +99,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             orders.append(order_delivery_ship)
             orders_map[
                 f"{order_delivery_ship['order_id']}:{order_delivery_ship['type']}"
-            ] = order_delivery_ship
+            ] = [order_delivery_ship["lat"], order_delivery_ship["lng"]]
 
         for pickup in json_file["request"]["pickups"]:
             # TODO: make it simpler
@@ -111,17 +111,12 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                 "type": "pickup",
             }
             orders.append(order)
-            orders_map[f"{order['order_id']}:{order['type']}"] = order
+            orders_map[f"{order['order_id']}:{order['type']}"] = [order["lat"],order["lng"]]
 
         for vehicle in json_file["request"]["vehicles"]:
             start_location = vehicle["startLocation"]
 
-            orders_map[f"{vehicle['_id']}:start"] = {
-                "lat": start_location["lat"],
-                "lng": start_location["lng"],
-                "order_id": vehicle["id"],
-                "type": "start",
-            }
+            orders_map[f"{vehicle['_id']}:start"] = [start_location['lat'], start_location['lng']]
             
             # TODO: add endLocation
 
@@ -136,7 +131,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             index = -1
             
             # TODO: too complicated
-            prev_loc = None
+            prev_loc = [None, None]
             
             for step in route["steps"]:
                 index += 1
@@ -154,10 +149,10 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                             "vehicle_id": route["vehicleId"],
                             "arrival_time": step["arrivalTime"],
                             "index": index,
-                            "prev_lat": prev_lat_loc,
-                            "curr_lat": cur_loc_lat,
-                            "prev_lng": prev_lng_loc,
-                            "curr_lng": cur_loc_lng,
+                            "prev_lat": prev_loc[0],
+                            "curr_lat": cur_loc[0],
+                            "prev_lng": prev_loc[1],
+                            "curr_lng": cur_loc[1],
                         }
                     )
                 
