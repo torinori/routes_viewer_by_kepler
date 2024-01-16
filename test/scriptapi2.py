@@ -103,9 +103,10 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
 
         for pickup in json_file["request"]["pickups"]:
             # TODO: make it simpler
+            location = pickup["location"]
             order = {
-                "lat": pickup["location"]["lat"],
-                "lng": pickup["location"]["lng"],
+                "lat": location["lat"],
+                "lng": location["lng"],
                 "order_id": pickup["id"],
                 "type": "pickup",
             }
