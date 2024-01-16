@@ -11,6 +11,8 @@ import random
 import string
 
 app = FastAPI()
+db_name = "tests"
+collection_name = "tests"
 
 
 
@@ -184,8 +186,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             routes_writer.writeheader()
             routes_writer.writerows(routes)
 
-    db_name = "tests"
-    collection_name = "tests"
+
     document_id_to_process = file_id
     mongodb_collection = connect_to_mongodb(db_name, collection_name)
     json_data = load_json_from_mongodb(mongodb_collection, document_id_to_process)
