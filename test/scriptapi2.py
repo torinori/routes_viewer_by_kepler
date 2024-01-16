@@ -13,6 +13,7 @@ import string
 app = FastAPI()
 
 
+
 def connect_to_mongodb(database_name, collection_name):
     client = MongoClient("mongodb://localhost:27017/")
     db = client[database_name]
@@ -28,6 +29,9 @@ def cleanup_files(orders_path, routes_path, zip_file_path):
 
 @app.get("/map/{file_id}")
 async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
+    randomi = "".join(
+        [random.choice(string.ascii_letters + string.digits) for n in range(12)]
+    )
     class JSONEncoder(json.JSONEncoder):
         def default(self, o):
             if isinstance(o, ObjectId):
@@ -124,7 +128,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             # TODO: add endLocation
         
 
-        with open("orders.csv", mode="w", newline="") as orders_file:
+        with open("orders"+randomi+".csv", mode="w", newline="") as orders_file:
             orders_writer = csv.DictWriter(
                 orders_file, fieldnames=["lat", "lng", "order_id", "type"]
             )
@@ -164,7 +168,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                 
                 prev_loc = cur_loc
                 
-        with open("routes.csv", mode="w", newline="") as routes_file:
+        with open("routes"+randomi+".csv", mode="w", newline="") as routes_file:
             routes_writer = csv.DictWriter(
                 routes_file,
                 fieldnames=[
@@ -186,8 +190,8 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
     mongodb_collection = connect_to_mongodb(db_name, collection_name)
     json_data = load_json_from_mongodb(mongodb_collection, document_id_to_process)
     convert_json_to_csv(json_data)
-    orders_path = "orders.csv"
-    routes_path = "routes.csv"
+    orders_path = "orders"+randomi+".csv" 
+    routes_path = "routes"+randomi+".csv" 
     zip_file_path = "combined_files.zip"
 
     with zipfile.ZipFile(zip_file_path, "w") as zipf:
@@ -201,9 +205,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
 
     background_tasks.add_task(cleanup_files, orders_path, routes_path, zip_file_path)
 
-    randomi = "".join(
-        [random.choice(string.ascii_letters + string.digits) for n in range(12)]
-    )
+   
 
     zip_name = file_id + randomi + ".zip"
 
