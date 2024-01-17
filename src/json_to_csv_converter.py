@@ -9,15 +9,18 @@ from fastapi.responses import StreamingResponse
 import os
 import random
 import string
+from dotenv import load_dotenv
 
 app = FastAPI()
 
-DB_NAME = "tests"
-COLLECTION_NAME = "tests"
+load_dotenv()
 
+DB_NAME = os.getenv("DB_NAME")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME")
+MONGO_CONNECTION_LINK = os.getenv("MONGO_CONNECTION_LINK")
 
 def connect_to_mongodb(database_name, collection_name):
-    client = MongoClient("mongodb://localhost:27017/")
+    client = MongoClient(MONGO_CONNECTION_LINK)
     db = client[database_name]
     collection = db[collection_name]
     return collection
