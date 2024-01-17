@@ -4,7 +4,7 @@
 ## About The Project
 
 
-In this project, api of converter script from json to csv was created. Created csv files are joined by a zip file. Then created csv files can be uploaded to kepler.gl to create routes and orders map in kepler.gl. It is intended to save time for converting json to csv file format.
+In this project, api of converter script from json to csv was created. Created csv files are joined by a zip file. Then created csv files can be uploaded to kepler.gl to create routes and orders map in kepler.gl. It is intended to save time for converting file format from json to csv.
 API endpoint is : GET /map/{file_id}. Making GET request to this endpoint results in csv files being downloaded.
 
 
