@@ -11,10 +11,9 @@ import random
 import string
 
 app = FastAPI()
-db_name = "tests"
-collection_name = "tests"
 
-
+DB_NAME = "tests"
+COLLECTION_NAME = "tests"
 
 
 def connect_to_mongodb(database_name, collection_name):
@@ -23,12 +22,14 @@ def connect_to_mongodb(database_name, collection_name):
     collection = db[collection_name]
     return collection
 
+mongodb_collection = connect_to_mongodb(DB_NAME, COLLECTION_NAME)
+
 
 def cleanup_files(orders_path, routes_path, zip_file_path):
     os.remove(orders_path)
     os.remove(zip_file_path)
     os.remove(routes_path)
-mongodb_collection = connect_to_mongodb(db_name, collection_name)
+    
 
 
 @app.get("/map/{file_id}")
