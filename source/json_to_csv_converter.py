@@ -132,7 +132,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             # TODO: add endLocation
         
 
-        with open("orders"+randomi+".csv", mode="w", newline="") as orders_file:
+        with open("orders"+"_"+randomi+".csv", mode="w", newline="") as orders_file:
             orders_writer = csv.DictWriter(
                 orders_file, fieldnames=["lat", "lng", "order_id", "type"]
             )
@@ -172,7 +172,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                 
                 prev_loc = cur_loc
                 
-        with open("routes"+randomi+".csv", mode="w", newline="") as routes_file:
+        with open("routes"+"_"+randomi+".csv", mode="w", newline="") as routes_file:
             routes_writer = csv.DictWriter(
                 routes_file,
                 fieldnames=[
@@ -192,8 +192,8 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
     document_id_to_process = file_id
     json_data = load_json_from_mongodb(mongodb_collection, document_id_to_process)
     convert_json_to_csv(json_data)
-    orders_path = "orders"+randomi+".csv" 
-    routes_path = "routes"+randomi+".csv" 
+    orders_path = "orders"+"_"+randomi+".csv" 
+    routes_path = "routes"+"_"+randomi+".csv" 
     zip_file_path = "combined_files.zip"
 
     with zipfile.ZipFile(zip_file_path, "w") as zipf:
