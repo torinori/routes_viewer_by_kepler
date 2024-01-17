@@ -28,12 +28,21 @@ _Below is process by which you can use API on your computer_
    git clone [https://github.com/your_username_/Project-Name.git](https://github.com/torinori/routes_viewer_by_kepler.git](https://github.com/torinori/routes_viewer_by_kepler.git)
    ```
 2. Install python packages
+
    If any of the packages in the script API are not installed, you can install required packages through pip install or install through virtual environment
+   
 3. Setup connection to required database
+
    In json_to_csv_converter.py file locate DB_NAME, COLLECTION_NAME, MONGO_CONNECTION_LINK files. For these files, database name, collection name and connection link to MongoDB database should be written in .env file. When you have filled out this information, you can then proceed to the next step.
+   
 4. Start using the api
+   
    In git bash terminal change directory to the location of json_to_csv_converter python script. Then type uvicorn json_to_csv_converter:app --reload, to start the work of API.
+   
 5. Get csv files
-   You can make get request in api by visiting following link. http://127.0.0.1:8000/map/fileid replace fileid with json ObjectId you want to convert in MongoDB. Accessing the link results in zip file containing 2 csv files being downloaded.
+
+   You can make get request in api by visiting following link. http://127.0.0.1:8000/map/fileid replace fileid with json ObjectId you want to convert in MongoDB. Accessing the link results in zip file containing2 csv files being downloaded.
+   
 6. Upload files to kepler.gl
+   
    In this final step, now you should extract two csv files from zip file, and then you can upload them to kepler gl to create map of orders and routes.
