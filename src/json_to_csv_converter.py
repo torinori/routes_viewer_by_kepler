@@ -9,6 +9,7 @@ from fastapi.responses import StreamingResponse
 import os
 import random
 import string
+import requests
 from dotenv import load_dotenv
 
 app = FastAPI()
@@ -24,22 +25,35 @@ def connect_to_mongodb(database_name, collection_name):
     db = client[database_name]
     collection = db[collection_name]
     return collection
+def get_osrm_route(coordinates):
+    url = "https://dev-routing.relog.kz/route/v1/driving/" + coordinates + "?geometries=geojson&overview=false&steps=true"
+    response = requests.get(url)
+
+    print(url)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise HTTPException(status_code=response.status_code, detail="OSRM API request failed")
 
 mongodb_collection = connect_to_mongodb(DB_NAME, COLLECTION_NAME)
 
 
-def cleanup_files(orders_path, routes_path, zip_file_path):
+def cleanup_files(orders_path, routes_path, zip_file_path, trips_path):
     os.remove(orders_path)
     os.remove(zip_file_path)
     os.remove(routes_path)
+    os.remove(trips_path)
     
 
 
 @app.get("/map/{file_id}")
 async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
+        
     randomi = "".join(
         [random.choice(string.ascii_letters + string.digits) for n in range(12)]
     )
+            
     class JSONEncoder(json.JSONEncoder):
         def default(self, o):
             if isinstance(o, ObjectId):
@@ -72,8 +86,16 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
     def convert_json_to_csv(json_file):
         orders = []
         routes = []
+        trips = []
         orders_map = {}
-
+        if not json_file["request"] or not json_file["response"]:
+            raise HTTPException(
+                status_code=422,
+                detail=f"Document cannot be processed due to its invalid format",
+                headers={"X-Error": "Unprocessable content"},
+            )
+            
+        
         for delivery in json_file["request"]["deliveries"]:
             # TODO: too complicated
             location = delivery["location"]
@@ -132,21 +154,13 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                 orders_map[f"{vehicle['id']}:start"] = [start_location['lat'], start_location['lng']]
             if end_location:
                 orders_map[f"{vehicle['id']}:end"] = [end_location['lat'], end_location['lng']]
-            
-            # TODO: add endLocation
+
         
 
-        with open("orders"+"_"+randomi+".csv", mode="w", newline="") as orders_file:
-            orders_writer = csv.DictWriter(
-                orders_file, fieldnames=["lat", "lng", "order_id", "type"]
-            )
-            orders_writer.writeheader()
-            orders_writer.writerows(orders)
 
         for route in json_file["response"]["routes"]:
             index = -1
             
-            # TODO: too complicated
             prev_loc = [None, None]
             
             for step in route["steps"]:
@@ -171,10 +185,60 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                             "curr_lat": cur_loc[0],
                             "prev_lng": prev_loc[1],
                             "curr_lng": cur_loc[1],
+                            "end_time" : step["endTime"]
                         }
                     )
                 
                 prev_loc = cur_loc
+        
+        
+        index = 0
+        vehicle_coords = {}
+        for route in routes:
+            vehicle_coords.setdefault(route["vehicle_id"], []).append({
+        "coords": [route["curr_lng"], route["curr_lat"]],
+        "arrival_time": route["arrival_time"],
+        "end_time": route["end_time"]
+    })
+        
+        for v_id, coords in vehicle_coords.items():
+            coords_str = ';'.join([f"{c['coords'][0]},{c['coords'][1]}" for c in coords])
+            
+            osrm_response = get_osrm_route(coords_str)
+        
+            trip = []
+        
+            for i in range(len(coords) - 1):    
+                
+                route_duration = (vehicle_coords[v_id][i + 1]["arrival_time"] - vehicle_coords[v_id][i]["end_time"])
+                
+                cnt = 0
+                num = 0
+                
+                osrm_leg = osrm_response["routes"][0]["legs"][i]
+    
+                for step in osrm_leg["steps"]:
+                    num += len(step["geometry"]["coordinates"])
+
+                for step in osrm_leg["steps"]:
+                    for point in step["geometry"]["coordinates"]:
+                        t = vehicle_coords[v_id][i]["end_time"] + cnt * route_duration / num
+                        
+                        trip.append([point[0], point[1], 0, int(t)])
+                        cnt += 1
+                        
+                        assert(cnt <= num)
+
+            trips.append(trip)
+        
+        
+            
+        with open("orders"+"_"+randomi+".csv", mode="w", newline="") as orders_file:
+            orders_writer = csv.DictWriter(
+                orders_file, fieldnames=["lat", "lng", "order_id", "type"]
+            )
+            orders_writer.writeheader()
+            orders_writer.writerows(orders)
                 
         with open("routes"+"_"+randomi+".csv", mode="w", newline="") as routes_file:
             routes_writer = csv.DictWriter(
@@ -187,29 +251,56 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                     "index",
                     "vehicle_id",
                     "arrival_time",
+                    "end_time"
                 ],
             )
             routes_writer.writeheader()
             routes_writer.writerows(routes)
+        id_index = -1
+        list_of_ids = list(vehicle_coords.keys())
+        geojson_data = {
+    "type": "FeatureCollection",
+    "features": []
+}
+        for trip in trips:
+            id_index+=1
+            feature = {
+        "type": "Feature",
+        "properties": {
+            "vendor": list_of_ids[id_index],
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": trip
+        }
+    }
+            geojson_data["features"].append(feature)
+        with open("trips"+"_"+randomi+".geojson", "w") as geojson_file:
+            json.dump(geojson_data, geojson_file)
+    
+
+        
 
 
     document_id_to_process = file_id
     json_data = load_json_from_mongodb(mongodb_collection, document_id_to_process)
     convert_json_to_csv(json_data)
     orders_path = "orders"+"_"+randomi+".csv" 
-    routes_path = "routes"+"_"+randomi+".csv" 
+    routes_path = "routes"+"_"+randomi+".csv"
+    trips_path = "trips"+"_"+randomi+".geojson"
     zip_file_path = "combined_files.zip"
 
     with zipfile.ZipFile(zip_file_path, "w") as zipf:
         zipf.write(orders_path)
         zipf.write(routes_path)
+        zipf.write(trips_path)
 
     async def generate_zip():
         with open(zip_file_path, mode="rb") as file:
             while chunk := file.read(8192):
                 yield chunk
 
-    background_tasks.add_task(cleanup_files, orders_path, routes_path, zip_file_path)
+    background_tasks.add_task(cleanup_files, orders_path, routes_path, zip_file_path, trips_path)
 
    
 
