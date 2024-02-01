@@ -1,11 +1,9 @@
 from fastapi import FastAPI, HTTPException, responses, File, BackgroundTasks
 import csv
 import json
-import zipfile
 from pymongo import MongoClient
 from datetime import datetime
 from bson import ObjectId
-from fastapi.responses import StreamingResponse
 import os
 import random
 import string
@@ -16,6 +14,16 @@ from dotenv import load_dotenv
 import pandas as pd
 from keplergl import KeplerGl
 from fastapi.responses import HTMLResponse
+file_name = 'config/my_map_config.json'
+
+
+try:
+    with open(file_name, 'r') as file:
+        my_map_config = json.load(file)
+except FileNotFoundError:
+    print(f"The file {file_name} was not found.")
+except json.JSONDecodeError:
+    print(f"Error decoding JSON from {file_name}.")
 
 
 app = FastAPI()
@@ -25,6 +33,7 @@ load_dotenv()
 DB_NAME = os.getenv("DB_NAME")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME")
 MONGO_CONNECTION_LINK = os.getenv("MONGO_CONNECTION_LINK")
+ROUTER_URL = os.getenv("ROUTER_URL")
 
 
 def connect_to_mongodb(database_name, collection_name):
@@ -36,7 +45,7 @@ def connect_to_mongodb(database_name, collection_name):
 
 def get_osrm_route(coordinates):
     url = (
-        "https://dev-routing.relog.kz/route/v1/driving/"
+        f"{ROUTER_URL}/route/v1/driving/"
         + coordinates
         + "?geometries=geojson&overview=false&steps=true"
     )
@@ -54,12 +63,6 @@ def get_osrm_route(coordinates):
 
 mongodb_collection = connect_to_mongodb(DB_NAME, COLLECTION_NAME)
 
-
-def cleanup_files(orders_path, routes_path, zip_file_path, trips_path):
-    os.remove(orders_path)
-    os.remove(zip_file_path)
-    os.remove(routes_path)
-    os.remove(trips_path)
 
 
 @app.get("/map/{file_id}")
@@ -98,6 +101,7 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
         return json.loads(JSONEncoder().encode(document))
 
     def convert_json_to_csv(json_file):
+        global orders, routes, trips
         orders = []
         routes = []
         trips = []
@@ -110,7 +114,6 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             )
 
         for delivery in json_file["request"]["deliveries"]:
-            # TODO: too complicated
             location = delivery["location"]
             order = {
                 "lat": location["lat"],
@@ -125,7 +128,6 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             ]
 
         for shipment in json_file["request"]["shipments"]:
-            # TODO: too complicated
             location_pickup = shipment["pickup"]["location"]
             location_delivery = shipment["delivery"]["location"]
 
@@ -152,7 +154,6 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
             ] = [order_delivery_ship["lat"], order_delivery_ship["lng"]]
 
         for pickup in json_file["request"]["pickups"]:
-            # TODO: make it simpler
             location = pickup["location"]
             order = {
                 "lat": location["lat"],
@@ -261,39 +262,22 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
 
             trips.append(trip)
 
-        with open(
-            "orders" + "_" + randomi + ".csv", mode="w", newline=""
-        ) as orders_file:
-            orders_writer = csv.DictWriter(
-                orders_file, fieldnames=["lat", "lng", "order_id", "type"]
-            )
-            orders_writer.writeheader()
-            orders_writer.writerows(orders)
+
+            
         global time, lati, longi
         time = routes[0]["end_time"]
         lati = routes[0]["curr_lat"]
         longi = routes[0]["curr_lng"]
-
-        with open(
-            "routes" + "_" + randomi + ".csv", mode="w", newline=""
-        ) as routes_file:
-            routes_writer = csv.DictWriter(
-                routes_file,
-                fieldnames=[
-                    "prev_lat",
-                    "prev_lng",
-                    "curr_lat",
-                    "curr_lng",
-                    "index",
-                    "vehicle_id",
-                    "arrival_time",
-                    "end_time",
-                ],
-            )
-            routes_writer.writeheader()
-            routes_writer.writerows(routes)
+        
+        
+        my_map_config['config']['visState']['animationConfig']['currentTime'] = time
+        my_map_config['config']['mapState']['latitude'] = lati
+        my_map_config['config']['mapState']['longitude'] = longi
+        
+    
         id_index = -1
         list_of_ids = list(vehicle_coords.keys())
+        global geojson_data
         geojson_data = {"type": "FeatureCollection", "features": []}
         for trip in trips:
             id_index += 1
@@ -305,166 +289,24 @@ async def get_csv_files(file_id: str, background_tasks: BackgroundTasks):
                 "geometry": {"type": "LineString", "coordinates": trip},
             }
             geojson_data["features"].append(feature)
-        with open("trips" + "_" + randomi + ".geojson", "w") as geojson_file:
-            json.dump(geojson_data, geojson_file)
-
+            
     document_id_to_process = file_id
     json_data = load_json_from_mongodb(mongodb_collection, document_id_to_process)
     convert_json_to_csv(json_data)
-    orders_path = "orders" + "_" + randomi + ".csv"
-    routes_path = "routes" + "_" + randomi + ".csv"
-    trips_path = "trips" + "_" + randomi + ".geojson"
-    zip_file_path = "combined_files.zip"
-
-    with zipfile.ZipFile(zip_file_path, "w") as zipf:
-        zipf.write(orders_path)
-        zipf.write(routes_path)
-        zipf.write(trips_path)
-
-    # df = gpd.read_file(trips_path)
-    # all_data = df
-    # all_data = gpd.concat([all_data, df])
-    with open(trips_path, "r") as file:
-        geojson_data = json.load(file)
-    my_map_config = {
-        "version": "v1",
-        "config": {
-            "visState": {
-                "filters": [],
-                "layers": [
-                    {
-                        "id": "n7piwgv",
-                        "type": "trip",
-                        "config": {
-                            "dataId": "-wo1lhh",
-                            "label": "trips_NDtJ65T2f2g8[1]",
-                            "color": [255, 203, 153],
-                            "highlightColor": [252, 242, 26, 255],
-                            "columns": {"geojson": "_geojson"},
-                            "isVisible": True,
-                            "visConfig": {
-                                "opacity": 0.56,
-                                "thickness": 1.9,
-                                "colorRange": {
-                                    "name": "Uber Viz Qualitative 4",
-                                    "type": "qualitative",
-                                    "category": "Uber",
-                                    "colors": [
-                                        "#12939A",
-                                        "#DDB27C",
-                                        "#88572C",
-                                        "#FF991F",
-                                        "#F15C17",
-                                        "#223F9A",
-                                        "#DA70BF",
-                                        "#125C77",
-                                        "#4DC19C",
-                                        "#776E57",
-                                        "#17B8BE",
-                                        "#F6D18A",
-                                        "#B7885E",
-                                        "#FFCB99",
-                                        "#F89570",
-                                        "#829AE3",
-                                        "#E79FD5",
-                                        "#1E96BE",
-                                        "#89DAC1",
-                                        "#B3AD9E",
-                                    ],
-                                },
-                                "trailLength": 586,
-                                "sizeRange": [0, 10],
-                            },
-                            "hidden": False,
-                            "textLabel": [
-                                {
-                                    "field": None,
-                                    "color": [255, 255, 255],
-                                    "size": 18,
-                                    "offset": [0, 0],
-                                    "anchor": "start",
-                                    "alignment": "center",
-                                    "outlineWidth": 0,
-                                    "outlineColor": [255, 0, 0, 255],
-                                    "background": False,
-                                    "backgroundColor": [0, 0, 200, 255],
-                                }
-                            ],
-                        },
-                        "visualChannels": {
-                            "colorField": {"name": "vendor", "type": "string"},
-                            "colorScale": "ordinal",
-                            "sizeField": None,
-                            "sizeScale": "linear",
-                        },
-                    }
-                ],
-                "effects": [],
-                "interactionConfig": {
-                    "tooltip": {
-                        "fieldsToShow": {
-                            "-wo1lhh": [{"name": "vendor", "format": None}]
-                        },
-                        "compareMode": False,
-                        "compareType": "absolute",
-                        "enabled": True,
-                    },
-                    "brush": {"size": 0.5, "enabled": False},
-                    "geocoder": {"enabled": False},
-                    "coordinate": {"enabled": False},
-                },
-                "layerBlending": "normal",
-                "overlayBlending": "normal",
-                "splitMaps": [],
-                "animationConfig": {"currentTime": time, "speed": 0.227},
-                "editor": {"features": [], "visible": True},
-            },
-            "mapState": {
-                "bearing": 0,
-                "dragRotate": False,
-                "latitude": lati,
-                "longitude": longi,
-                "pitch": 0,
-                "zoom": 11.510293575244276,
-                "isSplit": False,
-                "isViewportSynced": True,
-                "isZoomLocked": False,
-                "splitMapViewports": [],
-            },
-            "mapStyle": {
-                "styleType": "dark",
-                "topLayerGroups": {},
-                "visibleLayerGroups": {
-                    "label": True,
-                    "road": True,
-                    "border": False,
-                    "building": True,
-                    "water": True,
-                    "land": True,
-                    "3d building": False,
-                },
-                "threeDBuildingColor": [
-                    15.035172933000911,
-                    15.035172933000911,
-                    15.035172933000911,
-                ],
-                "backgroundColor": [0, 0, 0],
-                "mapStyles": {},
-            },
-        },
-    }
-    kepler = KeplerGl(
-        data={"-wo1lhh": geojson_data}, config=my_map_config, height=600
-    )
+    
+    df = pd.DataFrame(orders)
+    df1 = pd.DataFrame(routes)
+    
+    kepler = KeplerGl(config=my_map_config, height=600)
+    kepler.add_data(data=geojson_data, name="trips")
+    kepler.add_data(data=df, name="orders")
+    kepler.add_data(data=df1, name="routes")
+    
 
     kepler_html = kepler._repr_html_()
 
-    background_tasks.add_task(
-        cleanup_files, orders_path, routes_path, zip_file_path, trips_path
-    )
 
     return HTMLResponse(content=kepler_html, status_code=200)
 
 
-if __name__ == "__main__":
-    uvicorn.run("web_app:app", host="0.0.0.0", port=8000)
+
